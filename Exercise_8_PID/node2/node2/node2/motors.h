@@ -2,10 +2,11 @@
 #include <stdio.h>
 #include "sam.h"
 
-void ADC_init(); // move to different module
+void IR_init(); // move to different module
+void init_ir_goal_counter();
+void IR_goal_counter(uint32_t ir_val);
 
 void PWM_init();
-void timer_counter_encoder_init(); // check this 
 
 void encoder_init();
 void solinoid_init();

@@ -19,5 +19,6 @@ void oled_write_data(uint8_t data);
 //prev made 
 void init_oled();
 void print_menu_w_pos(int pos);
+void game_screen();
 
 

@@ -180,12 +180,6 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="mcp2515.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="mcp2515.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="motors.c">
       <SubType>compile</SubType>
     </Compile>
