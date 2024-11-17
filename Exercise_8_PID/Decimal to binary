@@ -1,0 +1,20 @@
+String decimalToBinary(int decimal) {
+    String binary = "";
+    
+    // Edge case for zero
+    if (decimal == 0) {
+        return "0";
+    }
+    
+    // Convert decimal to binary
+    while (decimal > 0) {
+        int remainder = decimal % 2;
+        binary = String(remainder) + binary;
+        decimal = decimal / 2;
+    }
+
+    return binary;
+}
+
+    int decimalNumber = 13;  // Example decimal number
+    String binaryNumber = decimalToBinary(decimalNumber);
