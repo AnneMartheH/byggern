@@ -116,9 +116,9 @@ void print_menu_w_pos(int pos){
 		//oled_print_char('G');  //use '' for printing char
 		oled_print("MENU"); // use "" for printing strings
 		oled_goto_pos(2,0);
-		oled_print(" Highscores *");
+		oled_print(" Start game *");
 		oled_goto_pos(3,0);
-		oled_print(" Start game");
+		oled_print(" Highscores");
 		oled_goto_pos(4,0);
 		oled_print(" Settings  ");
 	}
@@ -128,9 +128,9 @@ void print_menu_w_pos(int pos){
 		oled_goto_column(0);			//oled_print_char('G');  //use '' for printing char
 		oled_print("MENU"); // use "" for printing strings
 		oled_goto_pos(2,0);
-		oled_print(" Highscores ");
+		oled_print(" Start game ");
 		oled_goto_pos(3,0);
-		oled_print(" Start game *");
+		oled_print(" Highscores *");
 		oled_goto_pos(4,0);
 		oled_print(" Settings  ");
 	}
@@ -141,12 +141,18 @@ void print_menu_w_pos(int pos){
 		//oled_print_char('G');  //use '' for printing char
 		oled_print("MENU"); // use "" for printing strings
 		oled_goto_pos(2,0);
-		oled_print(" Highscores ");
-		oled_goto_pos(3,0);
 		oled_print(" Start game ");
+		oled_goto_pos(3,0);
+		oled_print(" Highscores ");
 		oled_goto_pos(4,0);
 		oled_print(" Settings   *");
 	}
 	
 }
 
+void game_screen(){
+	clear_screen();
+	oled_goto_line(1);
+	oled_goto_column(0);
+	oled_print("PLAYING PING");
+}

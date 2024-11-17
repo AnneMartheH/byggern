@@ -2,8 +2,11 @@
 #include "sam.h"
 
 float hist_error = 0;
+uint32_t prev_ir_value; 
+uint32_t ir_treshold; 
+int goals;
 
-void ADC_init(){
+void IR_init(){
 	//***Code for Reading IR sensor Signal from ADC Input pin***
 	
 	// Enable the clock for the ADC (in the PMC)
@@ -30,6 +33,25 @@ void ADC_init(){
 	 printf("ADC Freerun Mode Example\n");
 	
 	//***End***
+}
+
+void init_ir_goal_counter(){
+	prev_ir_value = 3000; //over treshold of goal
+	ir_treshold = 100; // should be a define so you cant change it
+	goals = 0;
+	
+}
+
+void IR_goal_counter(uint32_t ir_val){
+	//when blocked ir = close to 0
+	//when unblocked = bigger than 100, gratest value reived was over 3000 
+	
+	if ( ir_val < ir_treshold && prev_ir_value > ir_treshold) //100 = ir_treshold 
+	{
+		printf("goal !!, numer of goals is now: %d \r \n", goals); //should idealy be sent to node 1, and showed on OLED
+	}
+	prev_ir_value = ir_val;
+	
 }
 
 void PWM_init(){
@@ -78,63 +100,36 @@ void PWM_init(){
 		//************************************************************************************************************************************************************************************************************
 
 }
-void timer_counter_encoder_init(){
-		//CAN_BR_PHASE2();
-	//CAN_BR_PHASE1();
-	//printf("am og ma \n");
-	
-	//reading TC2
-	//pin D5 and D4
-	
-	//***Code for Reading Encoder Position***
-	
-	 ////Enable the clock for the ADC (in the PMC)
-	//PMC->PMC_PCER1 |= (1 << (ID_TC6-32)); // Enabling clock for TC2, channel 27
-	////PMC->PMC_PCER0 |= (1 << (ID_TC1));//28
-	//
-	//// Set block mode register for quadrature decoder
-	//TC2->TC_BMR = TC_BMR_QDEN |                        // Enable quadrature decoder
-	//TC_BMR_POSEN |                       // Enable position (pulses count up/down based on direction)
-	//TC_BMR_EDGPHA |                      // Edge detection on phase A
-	//TC_BMR_QDTRANS;                      // Enable quadrature transition counting
-	//
-// Enable the timer clock, start enable encoder -------------------------------------------------------------------------------------
-	TC2->TC_CHANNEL[0].TC_CCR = TC_CCR_CLKEN | TC_CCR_SWTRG;
-	
-	PIOC->PIO_ABSR |= (PIO_ABSR_P25);
-	PIOC->PIO_ABSR |= (PIO_ABSR_P26);
-	
-	PIOC->PIO_PDR |= (PIO_PDR_P25); 
-	PIOC->PIO_PDR |= (PIO_PDR_P26);
 
-	TC2->TC_CHANNEL[0].TC_CMR = TC_CMR_TCCLKS_XC0; //Enables TCCLKS as a XCO as the clock
-}
 
 void encoder_init(){
 			//Enable inputs todo Enabeling reading from the encoder
-			PIOC->PIO_PER |= PIO_PC25;
-			PIOC->PIO_PER |= PIO_PC26;
-
-			PIOC->PIO_PDR |= PIO_PC25;
-			PIOC->PIO_PDR |= PIO_PC26;
-			
-			PIOC->PIO_OER |= PIO_PC25;
-			PIOC->PIO_OER |= PIO_PC26;
-			
-			PIOC->PIO_ABSR |= PIO_ABSR_P25;
+			PIOC->PIO_ABSR |= PIO_ABSR_P25; 
 			PIOC->PIO_ABSR |= PIO_ABSR_P26;
+
+			PIOC->PIO_OER |= PIO_OER_P25;  
+			PIOC->PIO_OER |= PIO_OER_P26;
 			
-			// Enable clock
-			//TC2->TC_CHANNEL[0]
-			PMC->PMC_PCER1 |= PMC_PCER1_PID33;
-			PMC->PMC_PCER0 |= PMC_PCER0_PID29;
+			PIOC->PIO_PER |= PIO_PER_P25;  
+			PIOC->PIO_PER |=PIO_PER_P26;
+
+			PIOC->PIO_PDR |= PIO_PDR_P25;  
+			PIOC->PIO_PDR |= PIO_PDR_P26; 
+			
+			PIOC->PIO_OER |= PIO_OER_P25;  
+			PIOC->PIO_OER |= PIO_OER_P26; 
+			
+
+			
+
+			PMC->PMC_PCER1 |= (1 << (ID_TC6-32)); // Enabling clock for TC2, channel 27
+			PMC->PMC_PCER0 |= (1 << (ID_TC2));
 			
 			PMC->PMC_PCR |= PMC_PCR_EN | 0b11101;
 			
-			//TC2->TC_CHANNEL[0].
 			TC2->TC_CHANNEL[0].TC_CMR |= TC_CMR_TCCLKS_XC0;
 			TC2->TC_CHANNEL[0].TC_CCR |= TC_CCR_CLKEN | TC_CCR_SWTRG;
-			TC2->TC_BMR |= TC_BMR_QDEN | TC_BMR_POSEN; //| TC_BMR_TC1XC1S_TIOA0 | TC_BMR_TC0XC0S_TIOA1 // kAN VÆRE FEIL
+			TC2->TC_BMR |= TC_BMR_QDEN | TC_BMR_POSEN; 
 }
 
 void solinoid_init(){
