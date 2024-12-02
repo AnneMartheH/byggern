@@ -52,7 +52,7 @@ uint16_t joystckPosToTicks_speed(uint8_t y_pos_joystick){
 	
 }
 
-void joystick_solinod_controller(uint8_t button_joystick){
+void switch_solinod_controller(uint8_t button_joystick){
 	if (button_joystick == 255){// Default
 		PIOB->PIO_CODR |= PIO_CODR_P16;
 	}

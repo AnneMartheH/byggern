@@ -12,8 +12,6 @@ gameBoard.c
 
 main.c
 
-mcp2515.c
-
 motors.c
 
 test.c
